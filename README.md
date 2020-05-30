@@ -32,3 +32,10 @@ The words used for this AI is from [this word list by dwyl](https://github.com/d
 All the words are stored in a json file with keys ranging from "1" to "20". The value of each key is a list containing words with the length equal to the key (e.g Key "4" contains all words with 4 letters etc.)
 
 This is done this way so that when the user enters a word, the AI can just get the length of that word, use it as a key, then grab the word pool corresponding to that key. This speeds up the initial process of getting all possible words from a giant word pool.
+
+# Final words
+This is my first time posting to Github so I hope I didn't do anything too badly. Just as a sidenote, I added time.sleeps to my program so that it is easier to see what the AI is doing. 
+
+The sleeps get faster once the word pool gets narrowed down to 10 or less words. For the record, I don't think this is necessarily a good practice. I just did it this way to make the program perform nicer :)
+
+Thank you for taking the time to read!
