@@ -1,4 +1,5 @@
 from time import *
+import math
 import json
 
 # Get words from dictionary
@@ -37,8 +38,48 @@ def printPossibleWords(wordPool):
                 break
             else:
                 print(", ", end="")
-
-
+                
+# Print the 3 worst words based on letter popularity
+def printWorstWords(wordPool, guessedLetters):
+	maxnum = math.inf
+	table = getPopularLetter(wordPool, guessedLetters, True)
+	updatedTable = {}
+	
+	for key in table:
+		if table[key] == -10 or table[key] == 0:
+			pass
+		else:
+			updatedTable.update({key: table[key]})
+	
+	for key in updatedTable:
+		inverse = 1000/updatedTable[key]
+		updatedTable.update({key: inverse})
+	
+	#Calculate each word's "badness" value
+	worstWords = [("", 0),("", 0),("", 0)]
+	for word in wordPool[::-1]:
+		score = 0
+		for key in updatedTable:
+			if key in word:
+				score += updatedTable[key]
+				
+		for index, item in enumerate(worstWords):
+			string, value = item
+			if score > value:
+				worstWords[index] = (word, score)
+				break
+		
+	print("Worst words: ",end="")
+	for index, item in enumerate(worstWords):
+		word = item[0]
+		print(word, end="")
+		if index == 0:
+			print(", ", end="")
+		elif index == 1:
+			print(" and ", end="")
+		else:
+			print("\n")
+		
 ## Word pool pruning Methods ##
 # Removes all words that do not contain the given letter
 def falsePrune(wordPool, letter):
@@ -65,7 +106,7 @@ def indexPrune(wordPool, guess, revealed):
 
 
 # Gets the most popular letter in the given word pool
-def getPopularLetter(wordPool, guessedLetters):
+def getPopularLetter(wordPool, guessedLetters, onlyTable=False):
     alphabet = "abcdefghijklmnopqrstuvwxyz"
 
     # Create table for letter frequencies
@@ -83,7 +124,10 @@ def getPopularLetter(wordPool, guessedLetters):
     for item in list(table.items()):
         if item[0] in guessedLetters:
             table.update({item[0]: -10})
-
+    
+    if onlyTable:
+    	return table
+	
     # Find the most popular letter among the table
     maxPopularity = -10
     for item in list(table.items()):
@@ -142,6 +186,8 @@ def hangman(word):
             print("I guess the letter ", guess)
             print(revealedText)
             printPossibleWords(wordPool)
+            if len(wordPool) > 3:
+            	printWorstWords(wordPool, guessedLetters)
         else:
             print("\nI am analyzing the word...")
 
