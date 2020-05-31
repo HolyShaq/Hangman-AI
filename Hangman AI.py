@@ -50,11 +50,13 @@ def falsePrune(wordPool, letter):
 
 
 # Removes all words that are not similar to the revealed state of the word
-def indexPrune(wordPool, revealed):
+def indexPrune(wordPool, guess, revealed):
     for word in wordPool[:]:
-        for i in range(len(revealed)):
+        for i, _ in enumerate(revealed):
             if revealed[i] == "-":
-                pass
+                if word[i] == guess:
+                	wordPool.remove(word)
+                	break
             elif revealed[i] != word[i]:
                 wordPool.remove(word)
                 break
@@ -159,7 +161,7 @@ def hangman(word):
 
         # Update word pool
         if correct:
-            wordPool = indexPrune(wordPool, revealed)
+            wordPool = indexPrune(wordPool, guess, revealed)
         else:
             mistakes += 1
             wordPool = falsePrune(wordPool, guess)
