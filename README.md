@@ -33,6 +33,14 @@ All the words are stored in a json file with keys ranging from "1" to "20". The 
 
 This is done this way so that when the user enters a word, the AI can just get the length of that word, use it as a key, then grab the word pool corresponding to that key. This speeds up the initial process of getting all possible words from a giant word pool.
 
+# Worst Words Display (added feature) 
+The mechanism depends on the letter popularities of a word pool. It has 5 steps:
+- Get the popularity of each letter.
+- Inverse each popularity score. 
+- Calculate each word's "badness" score by summing the inversed popularity score of each of its letters (letter duplicates won't count multiple times). 
+- Get the three words with the highest badness scores. 
+- Display them! 
+
 # Final words
 This is my first time posting to Github so I hope I didn't do anything too badly. Just as a sidenote, I added time.sleeps to my program so that it is easier to see what the AI is doing. 
 
